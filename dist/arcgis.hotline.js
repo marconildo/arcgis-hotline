@@ -42,7 +42,7 @@ define([ "esri/layers/Layer", "esri/geometry/Point", "esri/geometry/support/webM
         constructor: params => {
             this.min = params.min;
             this.max = params.max;
-            generatePalette();
+            generatePalette(params.palette);
         },
         createLayerView: function(view) {
             const layer = this;
@@ -86,7 +86,7 @@ define([ "esri/layers/Layer", "esri/geometry/Point", "esri/geometry/support/webM
             }
         }
     };
-    const generatePalette = () => {
+    const generatePalette = palette => {
         const defaultPalette = {
             0: "green",
             .5: "yellow",
@@ -95,8 +95,14 @@ define([ "esri/layers/Layer", "esri/geometry/Point", "esri/geometry/support/webM
         var canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient = ctx.createLinearGradient(0, 0, 0, 256);
         canvas.width = 1;
         canvas.height = 256;
-        for (var i in defaultPalette) {
-            gradient.addColorStop(i, defaultPalette[i]);
+        if (!palette) {
+            for (var i in defaultPalette) {
+                gradient.addColorStop(i, defaultPalette[i]);
+            }
+        } else {
+            for (var i in palette) {
+                gradient.addColorStop(i, palette[i]);
+            }
         }
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 1, 256);

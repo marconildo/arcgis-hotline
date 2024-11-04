@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no"
+    />
+    <title>ArcGis Hotline</title>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.30/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.30/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <script src="./demo3.js"></script>
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "../dist/arcgis.hotline.min.js"
+      ], function (Map, MapView, HotlineLayer) {
+        const map = new Map({
+          basemap: "satellite"
+        });
+
+        const palette = {
+          0: "#737373",
+          0.033: "#f0710f",
+          0.066: "#f07619",
+          0.126: "#f0870f",
+          0.19: "#f0b214",
+          0.253: "#d7c30e",
+          0.316: "#a3c80d",
+          0.38: "#20C231",
+          0.59: "#10B4C2",
+          0.79: "#3C3BEF",
+          1: "#CC0DCE"
+        };
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [0.27948797422108584, 40.743219584250525],
+          zoom: 7
+        });
+
+        // // Crie uma instância de HotlineLayer
+        var hotlinelayer = new HotlineLayer({
+          data: [path],
+          min: 0,
+          max: 40000,
+          palette: palette,
+          weight: 5,
+          outlineWidth: 1,
+          outlineColor: "#000000"
+        });
+
+        map.add(hotlinelayer);
+
+        function isNumber(value) {
+          return typeof value === "number";
+        }
+      });
+    </script>
+  </body>
+</html>

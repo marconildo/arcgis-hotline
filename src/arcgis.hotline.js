@@ -60,7 +60,7 @@ define([
         constructor: (params) => {
             this.min = params.min;
             this.max = params.max;
-            generatePalette();
+            generatePalette(params.palette);
         },
         createLayerView: function (view) {
             const layer = this;
@@ -114,7 +114,7 @@ define([
         }
     }
 
-    const generatePalette = () => {
+    const generatePalette = (palette) => {
         const defaultPalette = {
             0.0: 'green',
             0.5: 'yellow',
@@ -126,9 +126,14 @@ define([
 
         canvas.width = 1;
         canvas.height = 256;
-
-        for (var i in defaultPalette) {
-            gradient.addColorStop(i, defaultPalette[i]);
+        if (!palette) {
+            for (var i in defaultPalette) {
+                gradient.addColorStop(i, defaultPalette[i]);
+            }
+        } else {
+            for (var i in palette) {
+                gradient.addColorStop(i, palette[i]);
+            }
         }
 
         ctx.fillStyle = gradient;
@@ -175,10 +180,10 @@ define([
                 gradient.addColorStop(1, 'rgb(' + gradientEndRGB.join(',') + ')');
 
                 ctx.strokeStyle = gradient;
-					ctx.beginPath();
-					ctx.moveTo(screenPointStart[0], screenPointStart[1]);
-					ctx.lineTo(screenPointEnd[0], screenPointEnd[1]);
-					ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(screenPointStart[0], screenPointStart[1]);
+                ctx.lineTo(screenPointEnd[0], screenPointEnd[1]);
+                ctx.stroke();
             }
         }
     }
@@ -186,7 +191,7 @@ define([
     const getRGBForValue = (value) => {
         var valueRelative = Math.min(Math.max((value - this.min) / (this.max - this.min), 0), 0.999);
         var paletteIndex = Math.floor(valueRelative * 256) * 4;
-
+        // console.log(paletteIndex);
         return [
             this.palette[paletteIndex],
             this.palette[paletteIndex + 1],
