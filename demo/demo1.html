@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no"
+    />
+    <title>ArcGis Hotline</title>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.30/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.30/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <script src="./demo1.js"></script>
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "../dist/arcgis.hotline.min.js"
+      ], function (Map, MapView, HotlineLayer) {
+        const map = new Map({
+          basemap: "streets"
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [ 6.993747, 50.51006],
+          zoom: 14
+        });
+
+        // Crie uma instância de HotlineLayer
+        var hotlinelayer = new HotlineLayer({
+          data: [coords.map((coord) => [coord[1], coord[0], coord[2]])],
+          min: 150,
+          max: 350,
+          palette: {
+            0.0: "#008800",
+            0.5: "#ffff00",
+            1.0: "#ff0000"
+          },
+          weight: 5,
+          outlineWidth: 1,
+          outlineColor: "#000000"
+        });
+
+        map.add(hotlinelayer);
+      });
+    </script>
+  </body>
+</html>
