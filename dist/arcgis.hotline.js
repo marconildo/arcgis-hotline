@@ -7,13 +7,7 @@ define([ "esri/layers/Layer", "esri/geometry/Point", "esri/geometry/support/webM
             this.view = params.view;
             this.layer = params.layer;
         },
-        attach: () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = this.view.width;
-            canvas.height = this.view.height;
-            this.context = canvas.getContext("2d");
-            this.view.surface.appendChild(canvas);
-        },
+        attach: () => {},
         render: renderParameters => {
             const state = renderParameters.state;
             const ctx = renderParameters.context;
@@ -95,14 +89,9 @@ define([ "esri/layers/Layer", "esri/geometry/Point", "esri/geometry/support/webM
         var canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient = ctx.createLinearGradient(0, 0, 0, 256);
         canvas.width = 1;
         canvas.height = 256;
-        if (!palette) {
-            for (var i in defaultPalette) {
-                gradient.addColorStop(i, defaultPalette[i]);
-            }
-        } else {
-            for (var i in palette) {
-                gradient.addColorStop(i, palette[i]);
-            }
+        var currentPalette = palette || defaultPalette;
+        for (var i in currentPalette) {
+            gradient.addColorStop(i, palette[i]);
         }
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 1, 256);

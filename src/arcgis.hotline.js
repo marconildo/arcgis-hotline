@@ -19,13 +19,6 @@ define([
             this.layer = params.layer;
         },
         attach: () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = this.view.width;
-            canvas.height = this.view.height;
-            this.context = canvas.getContext("2d");
-
-            // Adiciona o canvas ao container da view
-            this.view.surface.appendChild(canvas);
         },
         render: (renderParameters) => {
             const state = renderParameters.state;
@@ -126,14 +119,10 @@ define([
 
         canvas.width = 1;
         canvas.height = 256;
-        if (!palette) {
-            for (var i in defaultPalette) {
-                gradient.addColorStop(i, defaultPalette[i]);
-            }
-        } else {
-            for (var i in palette) {
-                gradient.addColorStop(i, palette[i]);
-            }
+        var currentPalette = palette || defaultPalette;
+
+        for (var i in currentPalette) {
+            gradient.addColorStop(i, palette[i]);
         }
 
         ctx.fillStyle = gradient;
