@@ -30,10 +30,7 @@ define([
             drawOutline(ctx, state, this.layer.data, this.layer.weight, this.layer.outlineWidth, this.layer.outlineColor);
             drawHotline(ctx, state, this.layer.data, this.layer.weight);
         },
-
-        // Método detach
         detach() {
-            this.view.container.removeChild(this.canvas);
         }
     });
 
